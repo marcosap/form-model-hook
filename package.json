@@ -1,6 +1,6 @@
 {
   "name": "form-model-hook",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "useForm react hook",
   "main": "index.js",
   "license": "MIT",
