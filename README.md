@@ -3,6 +3,12 @@
 
 A very simple hook to abstract common patterns on form data and validation.
 
+Premisses:
+
+ - Have a very simple API
+ - Bring the behavior implementation out of the form
+ - Be very flexible with validation
+
 Codebox sample:
 
 
