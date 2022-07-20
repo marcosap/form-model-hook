@@ -1,0 +1,14 @@
+{
+  "name": "form-model-hook",
+  "version": "1.0.4",
+  "description": "useForm react hook",
+  "main": "index.js",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/marcosap/form-model-hook",
+  "repository": {
+    "url": "https://github.com/marcosap/form-model-hook",
+    "type": "git"
+  },
+  "type": "module"
+}
