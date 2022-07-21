@@ -1,21 +1,88 @@
-import * as React from 'react'
+import { useState } from "react";
 
-export const useMyHook = () => {
-  let [{
-    counter
-  }, setState] = React.useState({
-    counter: 0
-  })
+export default function useFormModel(data, validators) {
 
-  React.useEffect(() => {
-    let interval = window.setInterval(() => {
-      counter++
-      setState({counter})
-    }, 1000)
-    return () => {
-      window.clearInterval(interval)
+    const [model, setModel] = useState(data)
+    const [errors, setErrors] = useState({})
+    const [pristine, setPristine] = useState(true)
+
+    const setError = (field, message) => {
+
+        if (message !== '') {
+            errors[field] = message
+        } else {
+            delete errors[field]
+        }
+
+        setErrors({ ...errors })
+
     }
-  }, [])
 
-  return counter
+    const setField = (field, value) => {
+
+        if(pristine)
+            setPristine(false)
+
+        model[field] = value
+        setModel({...model})
+
+        if (!validators[field]) return
+
+        runValidators(field, value)
+
+    }
+
+    const runValidators = (field, value) => {
+
+
+        if(!Array.isArray(validators[field])){
+
+            let message = validators[field](value)
+            setError(field, message)
+            return
+        }
+
+        for(let validator of validators[field]){
+
+
+            let message = validator(value)
+            setError(field, message)
+
+            if(message !== '')
+                break
+        }
+    }
+
+    const validate = (field, value) => {
+
+        if(!value)
+            value = model[field]
+
+        if(pristine)
+            setPristine(false)
+
+        if(field) {
+            runValidators(field, value)
+            return
+        }
+
+        for(let key in validators) {
+            runValidators(key, model[key])
+        }
+    }
+
+    const isValid = () => {
+
+        return Object.keys(errors).length === 0
+    }
+
+    return {
+        data: model,
+        setField: setField,
+        validate: validate,
+        isValid: isValid,
+        pristine: pristine,
+        errors: errors
+    }
+
 }
