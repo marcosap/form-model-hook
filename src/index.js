@@ -34,6 +34,8 @@ export default function useFormModel(data, validators) {
 
     const runValidators = (field, value) => {
 
+        if(!validators[field])
+            return
 
         if(!Array.isArray(validators[field])){
 
@@ -43,7 +45,6 @@ export default function useFormModel(data, validators) {
         }
 
         for(let validator of validators[field]){
-
 
             let message = validator(value)
             setError(field, message)
